@@ -4,13 +4,17 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-ipdb = "*"
-alembic = "*"
-sqlalchemy = "*"
+ipdb = ""
+alembic = ""
+sqlalchemy = ""
 click = "*"
 faker = "*"
+validators = "*"
 
 [dev-packages]
+
+[recommended]
+sqlite viewer = "*"
 
 [requires]
 python_version = "3.8"
