@@ -1,14 +1,17 @@
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+import sqlite3
 
-Base = declarative_base()
+connection = sqlite3.connect('../recipes.db')
+cursor = connection.cursor()
 
-class Recipe(Base):
-    __tablename__ = 'recipes'
-    id = Column(Integer, primary_key=True)
-    name = Column(String)
-    prep_time = Column(Integer)
-    cooking_instructions = Column(String)
-    servings = Column(Integer)
-    image_url = Column(String)
-    source_url = Column(String)
+cursor.execute('''CREATE TABLE IF NOT EXISTS recipes (
+                      id INTEGER PRIMARY KEY,
+                      name TEXT,
+                      prep_time INTEGER,
+                      cooking_instructions TEXT,
+                      servings INTEGER,
+                      image_url TEXT,
+                      source_url TEXT
+               )''')
+
+connection.commit()
+connection.close()
