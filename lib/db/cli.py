@@ -1,8 +1,11 @@
 import click
 import sqlite3
 import validators
+from colorama import Fore, Style
+from rich.console import Console
 
 DB_FILE = '../recipes.db'
+console = Console()
 
 @click.group()
 def cli():
@@ -117,24 +120,23 @@ def delete_recipe(recipe_id):
 def search_recipes(name):
     connection = sqlite3.connect(DB_FILE)
     cursor = connection.cursor()
-
-    if name:
-        query = f'SELECT * FROM recipes WHERE name LIKE ?'
-        cursor.execute(query, (f'%{name}%',))
-    else:
-        query = 'SELECT * FROM recipes'
-        cursor.execute(query)
-
+    
+    query = 'SELECT * FROM recipes'
+    cursor.execute(query)
     recipes = cursor.fetchall()
 
-    for recipe in recipes:
-        click.echo(f'Recipe ID: {recipe[0]}, Name: {recipe[1]}')
-        click.echo(f'Preparation Time: {recipe[2]} minutes')
-        click.echo(f'Cooking Instructions: {recipe[3]}')
-        click.echo(f'Servings: {recipe[4]}')
-        click.echo(f'Image URL: {recipe[5]}')
-        click.echo(f'Source URL: {recipe[6]}')
-        click.echo('---------------------------')
+    if recipes:
+        for recipe in recipes:
+            console.print(f"[yellow]Recipe ID:[/] {recipe[0]}")
+            console.print(f"[yellow]Name:[/] {recipe[1]}")
+            console.print(f"[yellow]Preparation Time:[/] {recipe[2]} minutes")
+            console.print(f"[yellow]Cooking Instructions:[/] {recipe[3]}")
+            console.print(f"[yellow]Servings:[/] {recipe[4]}")
+            console.print(f"[yellow]Image URL:[/] {recipe[5]}")
+            console.print(f"[yellow]Source URL:[/] {recipe[6]}")
+            console.print('---------------------------')
+    else:
+        console.print("[red]No recipes found.[/]")
 
     connection.close()
 
@@ -176,4 +178,5 @@ def recipes_by_ingredient():
 
 
 if __name__ == '__main__':
+    console.print("[green]Welcome to the Recipe Manager![/]")
     cli()

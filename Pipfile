@@ -10,6 +10,8 @@ sqlalchemy = ""
 click = "*"
 faker = "*"
 validators = "*"
+rich = "*"
+colorama = "*"
 
 [dev-packages]
 
